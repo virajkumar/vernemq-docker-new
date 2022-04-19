@@ -1,0 +1,12 @@
+{application,vmq_commons,
+             [{description,"Common Functionality for the VerneMQ MQTT broker"},
+              {vsn,"1.12.5+build.2355.refe21c474"},
+              {registered,[]},
+              {applications,[kernel,stdlib,vernemq_dev]},
+              {env,[]},
+              {maintainers,["Andre Graf","Andre Fatton",
+                            "Lars Hesel Christensen"]},
+              {licenses,["Apache License 2.0"]},
+              {links,[{"Github","https://github.com/erlio/vmq_commons"}]},
+              {modules,[gen_mqtt_client,packet,packetv5,vmq_parser,
+                        vmq_parser_mqtt5,vmq_schema_util,vmq_topic]}]}.

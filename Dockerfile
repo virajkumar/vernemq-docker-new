@@ -1,7 +1,21 @@
+FROM debian:buster-slim as builder
+
+RUN USER=root
+
+RUN mkdir bot
+WORKDIR /bot
+
+RUN apt-get update && \
+    apt-get -y install bash git make erlang libsnappy-dev build-essential  && \
+    git clone https://github.com/vernemq/vernemq ../bot && \
+    make rel
+
 FROM debian:buster-slim
 
 RUN apt-get update && \
-    apt-get -y install bash procps openssl iproute2 curl jq libsnappy-dev net-tools nano && \
+    apt-get -y install bash procps openssl iproute2 curl jq libsnappy-dev net-tools nano git gcc-4.9 && \
+    apt-get -y upgrade libstdc++6 && \
+    apt-get dist-upgrade && \
     rm -rf /var/lib/apt/lists/* && \
     addgroup --gid 10000 vernemq && \
     adduser --uid 10000 --system --ingroup vernemq --home /vernemq --disabled-password vernemq
@@ -14,12 +28,11 @@ ENV DOCKER_VERNEMQ_KUBERNETES_LABEL_SELECTOR="app=vernemq" \
     PATH="/vernemq/bin:$PATH" \
     VERNEMQ_VERSION="1.12.3"
 COPY --chown=10000:10000 bin/vernemq.sh /usr/sbin/start_vernemq
+COPY --from=builder --chown=10000:10000 bot /vernemq
 COPY --chown=10000:10000 files/vm.args /vernemq/etc/vm.args
 
-RUN curl -L https://github.com/vernemq/vernemq/releases/download/$VERNEMQ_VERSION/vernemq-$VERNEMQ_VERSION.buster.tar.gz -o /tmp/vernemq-$VERNEMQ_VERSION.buster.tar.gz && \
-    tar -xzvf /tmp/vernemq-$VERNEMQ_VERSION.buster.tar.gz && \
-    rm /tmp/vernemq-$VERNEMQ_VERSION.buster.tar.gz && \
-    chown -R 10000:10000 /vernemq && \
+#RUN git clone https://github.com/virajkumar/vernemq ../vernemq && \
+RUN chown -R 10000:10000 /vernemq && \
     ln -s /vernemq/etc /etc/vernemq && \
     ln -s /vernemq/data /var/lib/vernemq && \
     ln -s /vernemq/log /var/log/vernemq

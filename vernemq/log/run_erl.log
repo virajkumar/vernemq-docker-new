@@ -1,0 +1,8 @@
+run_erl [24159] Sun Apr 17 16:52:51 2022
+Args before exec of shell:
+run_erl [24159] Sun Apr 17 16:52:51 2022
+argv[0] = sh
+run_erl [24159] Sun Apr 17 16:52:51 2022
+argv[1] = -c
+run_erl [24159] Sun Apr 17 16:52:51 2022
+argv[2] = exec /home/viraj/vernemq/_build/default/rel/vernemq/bin/vernemq console

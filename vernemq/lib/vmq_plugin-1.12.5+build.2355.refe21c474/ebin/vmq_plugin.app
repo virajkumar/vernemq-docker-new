@@ -1,0 +1,10 @@
+{application,vmq_plugin,
+             [{description,"Generic Plugin System"},
+              {vsn,"1.12.5+build.2355.refe21c474"},
+              {registered,[]},
+              {applications,[kernel,stdlib,lager,clique]},
+              {mod,{vmq_plugin_app,[]}},
+              {env,[{wait_for_proc,init},{default_schema_dir,[]}]},
+              {modules,[smerl,vmq_plugin,vmq_plugin_app,vmq_plugin_cli,
+                        vmq_plugin_helper,vmq_plugin_mgr,vmq_plugin_sup,
+                        vmq_plugin_util]}]}.
